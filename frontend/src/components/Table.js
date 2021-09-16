@@ -8,12 +8,13 @@ const Table = styled.table`
   display: grid;
   border-collapse: collapse;
   grid-template-columns:
+    min-content
+    minmax(150px, 1.5fr)
+    minmax(150px, 1.5fr)
     minmax(150px, 1fr)
-    minmax(150px, 1.67fr)
-    minmax(150px, 1.67fr)
     minmax(150px, 1fr);
-
-  padding: 0 10em;
+  grid-template-rows: max-content auto;
+  height: 165px;
 
   tr {
     display: contents;
@@ -73,39 +74,37 @@ const MessageContainer = styled.div`
   text-decoration: underline;
 `;
 
-export default function TableComponent({ header }) {
+export default function TableComponent({ type, header, games }) {
   return (
     <Container>
       {true ? (
         <Table>
           <TableHead>
             <tr>
+              <th>#</th>
               {header.map((head) => (
                 <th>{head}</th>
               ))}
             </tr>
           </TableHead>
           <TableBody>
-            {/* {transactions.map((transaction) => ( */}
-            <tr>
-              <td>{'Civilization 6'}</td>
-              <td>{'PC, XBOX, PS4'}</td>
-              <td>{'RPG'}</td>
-              <td>{'5'}</td>
-            </tr>
-            <tr>
-              <td>{'Civilization 6'}</td>
-              <td>{'PC, XBOX, PS4'}</td>
-              <td>{'RPG'}</td>
-              <td>{'5'}</td>
-            </tr>
-            <tr>
-              <td>{'Civilization 6'}</td>
-              <td>{'PC, XBOX, PS4'}</td>
-              <td>{'RPG'}</td>
-              <td>{'5'}</td>
-            </tr>
-            {/* ))} */}
+            {games.length !== 0 ? (
+              games.map((game, index) => (
+                <tr>
+                  <td>{index + 1}</td>
+                  <td>{game.game}</td>
+                  <td>{'PC, XBOX, PS4'}</td>
+                  <td>{game.genre}</td>
+                  <td>
+                    {type === 'byTimePlayed'
+                      ? game.totalPlayTime
+                      : game.totalPlayers}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <></>
+            )}
           </TableBody>
         </Table>
       ) : (
