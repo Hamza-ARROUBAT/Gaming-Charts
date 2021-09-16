@@ -90,7 +90,7 @@ export default function TableComponent({ type, header, games }) {
             </tr>
           </TableHead>
           <TableBody>
-            {games.length !== 0 ? (
+            {games && games.length !== 0 ? (
               games.map((game, index) => (
                 <tr>
                   <td>{index + 1}</td>
