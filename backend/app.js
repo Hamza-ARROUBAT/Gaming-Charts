@@ -10,6 +10,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// getting routers
+const select = require('./api/routers/select');
+
+// adding routers
+app.use('/', select);
+
 app.listen(
   PORT,
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
