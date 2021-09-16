@@ -4,11 +4,10 @@ import { BarChartLineFill as Logo } from "@styled-icons/bootstrap/BarChartLineFi
 import { Link, NavLink } from "react-router-dom";
 
 const Nav = styled.nav`
-  grid-column: 1/4;
   display: grid;
-  grid-template-columns: minmax(max-content, 20%) auto;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 3px;
-  padding: 0 0.75em;
+  grid-template-columns: max-content auto;
+  gap: 0 100px;
+  padding: 0 1em;
   background: hsl(0, 0%, 100%);
 `;
 
@@ -37,17 +36,8 @@ const LinksContainer = styled.div`
 `;
 const StyledNavLink = styled(NavLink)`
   &.selected {
-    div {
-      div {
-        border-color: #1877f2;
-        svg {
-          color: #1877f2;
-
-          :hover {
-            background: none;
-          }
-        }
-      }
+    p {
+      color: #1877f2;
     }
   }
 `;
