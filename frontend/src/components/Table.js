@@ -16,6 +16,8 @@ const Table = styled.table`
   grid-template-rows: max-content auto;
   height: 165px;
 
+  overflow: auto;
+
   tr {
     display: contents;
   }
@@ -93,7 +95,7 @@ export default function TableComponent({ type, header, games }) {
                 <tr>
                   <td>{index + 1}</td>
                   <td>{game.game}</td>
-                  <td>{'PC, XBOX, PS4'}</td>
+                  <td>{game.platforms.join(', ')}</td>
                   <td>{game.genre}</td>
                   <td>
                     {type === 'byTimePlayed'

@@ -45,7 +45,7 @@ const StyledNavLink = styled(NavLink)`
 export default function Header() {
   return (
     <Nav>
-      <StyledLink to="/home">
+      <StyledLink to="/">
         <Logo />
         <p>Gaming Charts</p>
       </StyledLink>
