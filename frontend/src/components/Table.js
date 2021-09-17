@@ -69,6 +69,14 @@ const Table = styled.table`
     text-align: left;
   }
 
+  th:first-child {
+    text-align: center;
+  }
+
+  td:first-child {
+    text-align: center;
+  }
+
   tbody {
     align-items: flex-start;
     tr {
@@ -122,6 +130,20 @@ export default function TableComponent({ type, header, isLoading, games }) {
     }
   };
 
+  const getMedal = (position) => {
+    switch (position) {
+      case 1:
+        return '🥇';
+      case 2:
+        return '🥈';
+      case 3:
+        return '🥉';
+
+      default:
+        return position;
+    }
+  };
+
   return (
     <Container>
       <Table games={games}>
@@ -141,7 +163,7 @@ export default function TableComponent({ type, header, isLoading, games }) {
                 rowColor={getColor(game.position)}
                 key={index}
               >
-                <td>{game.position}</td>
+                <td>{getMedal(game.position)}</td>
                 <td>{game.game}</td>
                 <td>{game.platforms.join(', ')}</td>
                 <td>{game.genre}</td>
