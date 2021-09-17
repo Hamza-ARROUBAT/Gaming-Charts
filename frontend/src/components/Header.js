@@ -9,6 +9,7 @@ const Nav = styled.nav`
   gap: 0 100px;
   padding: 0 1em;
   background: hsl(0, 0%, 100%);
+  margin-bottom: 50px;
 `;
 
 const StyledLink = styled(Link)`

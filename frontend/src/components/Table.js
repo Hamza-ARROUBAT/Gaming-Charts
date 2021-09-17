@@ -55,7 +55,7 @@ const Table = styled.table`
     top: 0;
     font-size: 1.1rem;
     background: #fff;
-    color: gray;
+    color: hsl(0, 0%, 25%);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     text-transform: capitalize;
   }
@@ -83,6 +83,11 @@ const Table = styled.table`
   }
 `;
 
+const GameRow = styled.tr`
+  color: ${({ rowColor }) => rowColor};
+  font-weight: ${({ isTop }) => isTop && 'bold'};
+`;
+
 const TableHead = styled.thead`
   display: contents;
 `;
@@ -103,6 +108,20 @@ const LoaderContainer = styled.div`
 `;
 
 export default function TableComponent({ type, header, isLoading, games }) {
+  const getColor = (position) => {
+    switch (position) {
+      case 1:
+        return 'hsl(51, 100%, 41%)';
+      case 2:
+        return 'hsl(0, 0%, 65%)';
+      case 3:
+        return 'hsl(30, 36%, 45%)';
+
+      default:
+        return 'black';
+    }
+  };
+
   return (
     <Container>
       <Table games={games}>
@@ -117,7 +136,11 @@ export default function TableComponent({ type, header, isLoading, games }) {
         <TableBody>
           {!isLoading ? (
             games.map((game, index) => (
-              <tr key={index}>
+              <GameRow
+                isTop={game.position <= 3}
+                rowColor={getColor(game.position)}
+                key={index}
+              >
                 <td>{game.position}</td>
                 <td>{game.game}</td>
                 <td>{game.platforms.join(', ')}</td>
@@ -127,7 +150,7 @@ export default function TableComponent({ type, header, isLoading, games }) {
                     ? game.totalPlayTime
                     : game.totalPlayers}
                 </td>
-              </tr>
+              </GameRow>
             ))
           ) : (
             <LoaderContainer>

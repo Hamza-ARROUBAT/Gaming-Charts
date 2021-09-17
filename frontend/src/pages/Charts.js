@@ -19,6 +19,11 @@ const Container = styled.div`
   gap: 35px 0;
 `;
 
+const Title = styled.h1`
+  color: hsl(196deg 100% 20%);
+  margin-bottom: 0;
+`;
+
 const Header = styled.div`
   display: grid;
   grid-template-columns: auto min-content min-content;
@@ -39,6 +44,10 @@ const FiltersContainer = styled.div`
 const Filter = styled.div`
   display: grid;
   gap: 10px 0;
+
+  p {
+    font-weight: bold;
+  }
 `;
 
 const SelectContainer = styled.div`
@@ -100,6 +109,7 @@ const SearchBar = styled.div`
 
   svg {
     width: 15px;
+    transition: color 0.5s;
   }
 
   input {
@@ -107,6 +117,15 @@ const SearchBar = styled.div`
     border: none;
     background: transparent;
     font-size: 1rem;
+  }
+
+  transition: border 0.2s;
+  :focus-within {
+    border: 2px solid hsl(196deg 100% 44%);
+
+    svg {
+      color: hsl(196deg 100% 44%);
+    }
   }
 `;
 
@@ -266,14 +285,9 @@ export default function Charts() {
     'Sport',
   ];
 
-  function loadMoreItems(event) {
-    if (event.target.scrollTop === event.target.scrollHeight) {
-      //user is at the end of the list so load more items
-    }
-  }
-
   return (
     <Container>
+      <Title>Top Games 🏆</Title>
       <Header>
         <Box sx={{ width: '100%' }}>
           <Tabs
@@ -286,14 +300,14 @@ export default function Charts() {
           </Tabs>
         </Box>
 
-        <SearchBar
-          isClicked={isFilterClicked}
-          onClick={() => {
-            // setIsFilterClicked(!isFilterClicked);
-          }}
-        >
+        <SearchBar>
           <Search />
-          <input type="text" value={searched} onChange={handleSearchChange} />
+          <input
+            type="text"
+            placeholder="Search by name"
+            value={searched}
+            onChange={handleSearchChange}
+          />
         </SearchBar>
 
         <FilterButton
