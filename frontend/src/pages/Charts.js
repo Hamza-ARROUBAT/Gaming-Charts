@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from 'components/Table';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -242,27 +242,35 @@ export default function Charts() {
     }
   };
 
-  const searchRef = useRef();
-
   const allPlatforms = [
     'PC',
     'Xbox 360',
     'PS3',
     'Xbox One',
     'PS4',
-    'ANDROID',
-    'IOS',
+    'PS5',
     'NINTENDO Switch',
+    'ANDROID',
   ];
   const allGenres = [
     'RPG',
+    'Action RPG',
     'MMORPG',
     'Multiplayer',
     'Strategy',
     'MOBA',
-    'FPS',
     'Sandbox',
+    'Card Game',
+    'Stealth',
+    'FPS',
+    'Sport',
   ];
+
+  function loadMoreItems(event) {
+    if (event.target.scrollTop === event.target.scrollHeight) {
+      //user is at the end of the list so load more items
+    }
+  }
 
   return (
     <Container>
@@ -285,12 +293,7 @@ export default function Charts() {
           }}
         >
           <Search />
-          <input
-            ref={searchRef}
-            type="text"
-            value={searched}
-            onChange={handleSearchChange}
-          />
+          <input type="text" value={searched} onChange={handleSearchChange} />
         </SearchBar>
 
         <FilterButton
