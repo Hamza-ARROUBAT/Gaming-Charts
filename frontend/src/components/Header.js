@@ -1,45 +1,33 @@
-import React from "react";
-import styled from "styled-components";
-import { BarChartLineFill as Logo } from "@styled-icons/bootstrap/BarChartLineFill";
-import { Link, NavLink } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+import logo from 'assets/images/png/logo.png';
 
 const Nav = styled.nav`
   display: grid;
-  grid-template-columns: max-content auto;
+  grid-template-columns: min-content auto;
+  align-items: center;
   gap: 0 100px;
-  padding: 0 1em;
+  padding: 0.8em 2em;
   background: hsl(0, 0%, 100%);
-  margin-bottom: 50px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 4px;
 `;
 
 const StyledLink = styled(Link)`
   display: grid;
   grid-template-columns: min-content max-content;
   align-items: center;
-  gap: 0 10px;
-
-  svg {
-    width: 35px;
-    color: #1877f2;
-    cursor: pointer;
+  gap: 0 15px;
+  img {
+    width: 50px;
   }
 
   p {
     margin: 0;
     font-weight: bold;
-  }
-`;
-
-const LinksContainer = styled.div`
-  display: grid;
-  grid-template-columns: min-content min-content;
-  gap: 0 25px;
-`;
-const StyledNavLink = styled(NavLink)`
-  &.selected {
-    p {
-      color: #1877f2;
-    }
+    font-size: 1.3rem;
+    color: hsl(196deg 100% 30%);
   }
 `;
 
@@ -47,17 +35,9 @@ export default function Header() {
   return (
     <Nav>
       <StyledLink to="/">
-        <Logo />
+        <img src={logo} alt="Logo" />
         <p>Gaming Charts</p>
       </StyledLink>
-      <LinksContainer>
-        <StyledNavLink exact to="/" activeClassName="selected">
-          <p>Home</p>
-        </StyledNavLink>
-        <StyledNavLink exact to="/charts" activeClassName="selected">
-          <p>Charts</p>
-        </StyledNavLink>
-      </LinksContainer>
     </Nav>
   );
 }

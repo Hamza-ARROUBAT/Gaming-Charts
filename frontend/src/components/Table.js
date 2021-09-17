@@ -55,7 +55,7 @@ const Table = styled.table`
     top: 0;
     font-size: 1.1rem;
     background: #fff;
-    color: hsl(0, 0%, 25%);
+    color: hsl(201deg 100% 11%);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     text-transform: capitalize;
   }

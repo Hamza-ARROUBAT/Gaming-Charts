@@ -1,4 +1,3 @@
-import Charts from 'pages/Charts';
 import Home from 'pages/Home';
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
@@ -12,9 +11,6 @@ export default function App() {
         <Switch>
           <Route exact path="/">
             <Home />
-          </Route>
-          <Route path="/charts">
-            <Charts />
           </Route>
         </Switch>
       </AppLayout>

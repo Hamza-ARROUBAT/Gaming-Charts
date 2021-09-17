@@ -1,12 +1,13 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
+
   *, *:before, *:after {
     box-sizing: border-box;
   }
   html, body {
     height: 100%;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Futura', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #ffffff;
@@ -16,7 +17,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   a {
     text-decoration: none;
-    color: #000000;
+    color: hsl(228deg 10% 28%);
   }
 
   .MuiList-root {
