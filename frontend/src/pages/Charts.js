@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Table from 'components/Table';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -10,6 +10,8 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Filter as FilterSvg } from '@styled-icons/bootstrap/Filter';
 
+import { Search } from '@styled-icons/boxicons-regular/Search';
+
 const Container = styled.div`
   display: grid;
   grid-template-columns: minmax(min-content, 75%);
@@ -19,10 +21,9 @@ const Container = styled.div`
 
 const Header = styled.div`
   display: grid;
-  grid-template-columns: max-content min-content;
-  justify-content: space-between;
+  grid-template-columns: auto min-content min-content;
   align-items: center;
-  gap: 25px 0;
+  gap: 25px 20px;
 `;
 
 const FiltersContainer = styled.div`
@@ -61,7 +62,7 @@ const FilterButton = styled.div`
   background: hsl(0, 0%, 95%);
   border: 1px solid hsl(0, 0%, 85%);
   border-radius: 10px;
-  padding: 0.5em 1em;
+  padding: 0.6em 1.5em;
   height: min-content;
 
   svg {
@@ -87,55 +88,102 @@ const FilterButton = styled.div`
   `}
 `;
 
+const SearchBar = styled.div`
+  display: grid;
+  grid-template-columns: min-content auto;
+  align-items: center;
+  gap: 0 10px;
+
+  border: 2px solid hsl(0, 0%, 80%);
+  border-radius: 20px;
+  padding: 0.5em 1em;
+
+  svg {
+    width: 15px;
+  }
+
+  input {
+    outline: none;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+  }
+`;
+
 const Body = styled.div``;
 
 export default function Charts() {
   const [topGamesByTimePlayed, setTopGamesByTimePlayed] = useState([]);
   const [topGamesByPlayers, setTopGamesByPlayers] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [platform, setPlatform] = useState('');
   const [genre, setGenre] = useState('');
+  const [prevPlatform, setPrevPlatform] = useState('');
+  const [prevGenre, setPrevGenre] = useState('');
 
-  const getTopGamesByTimePlayed = () => {
+  const getTopGamesByTimePlayed = (genre, platform) => {
     axios({
       method: 'get',
       url: `http://192.168.0.107:5000/select_top_by_playtime?genre=${genre}&platform=${platform}`,
     })
       .then((res) => {
-        setTopGamesByTimePlayed(res.data);
+        let gamesArr = [];
+        res.data.map((game, index) => {
+          gamesArr.push({ position: index + 1, ...game });
+        });
+        setTopGamesByTimePlayed(gamesArr);
+        setIsLoading(false);
       })
       .catch((err) => console.error(err));
   };
 
-  const getTopGamesByPlayers = () => {
+  const getTopGamesByPlayers = (genre, platform) => {
     axios({
       method: 'get',
       url: `http://192.168.0.107:5000/select_top_by_players?genre=${genre}&platform=${platform}`,
     })
       .then((res) => {
-        setTopGamesByPlayers(res.data);
+        let gamesArr = [];
+        res.data.map((game, index) => {
+          gamesArr.push({ position: index + 1, ...game });
+        });
+        setTopGamesByPlayers(gamesArr);
+        setIsLoading(false);
       })
       .catch((err) => console.error(err));
   };
 
   useEffect(() => {
-    getTopGamesByTimePlayed();
+    getTopGamesByTimePlayed('', '');
   }, []);
 
   const [tab, setTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
+    setSearched('');
     if (newValue === 0) {
-      if (topGamesByTimePlayed.length === 0) {
+      if (
+        topGamesByTimePlayed.length === 0 ||
+        prevGenre !== genre ||
+        prevPlatform !== platform
+      ) {
         setTab(0);
-        getTopGamesByTimePlayed();
+        setIsLoading(true);
+        getTopGamesByTimePlayed(genre, platform);
       } else {
         setTab(0);
       }
     } else if (newValue === 1) {
-      if (topGamesByPlayers.length === 0) {
+      if (
+        topGamesByPlayers.length === 0 ||
+        prevGenre !== genre ||
+        prevPlatform !== platform
+      ) {
         setTab(1);
-        getTopGamesByPlayers();
+        setIsLoading(true);
+        getTopGamesByPlayers(genre, platform);
       } else {
         setTab(1);
       }
@@ -145,21 +193,56 @@ export default function Charts() {
   const [isFilterClicked, setIsFilterClicked] = useState(false);
 
   const handlePlatformChange = (event) => {
+    setPrevPlatform(platform);
     setPlatform(event.target.value);
     if (tab === 0) {
-      getTopGamesByTimePlayed();
+      setIsLoading(true);
+      getTopGamesByTimePlayed(genre, event.target.value);
     } else {
-      getTopGamesByPlayers();
+      setIsLoading(true);
+      getTopGamesByPlayers(genre, event.target.value);
     }
   };
   const handleGenreChange = (event) => {
+    setPrevGenre(genre);
     setGenre(event.target.value);
     if (tab === 0) {
-      getTopGamesByTimePlayed();
+      setIsLoading(true);
+      getTopGamesByTimePlayed(event.target.value, platform);
     } else {
-      getTopGamesByPlayers();
+      setIsLoading(true);
+      getTopGamesByPlayers(event.target.value, platform);
     }
   };
+
+  const [searched, setSearched] = useState('');
+
+  const [searchedTopGamesByTimePlayed, setSearchedTopGamesByTimePlayed] =
+    useState([]);
+  const [searchedTopGamesByPlayers, setSearchedTopGamesByPlayers] = useState(
+    []
+  );
+
+  const handleSearchChange = (e) => {
+    setSearched(e.target.value);
+    setIsLoading(true);
+
+    if (tab === 0) {
+      const filtred = topGamesByTimePlayed.filter((element) =>
+        element.game.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setSearchedTopGamesByTimePlayed(filtred);
+      setIsLoading(false);
+    } else {
+      const filtred = topGamesByPlayers.filter((element) =>
+        element.game.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setSearchedTopGamesByPlayers(filtred);
+      setIsLoading(false);
+    }
+  };
+
+  const searchRef = useRef();
 
   const allPlatforms = [
     'PC',
@@ -194,6 +277,21 @@ export default function Charts() {
             <Tab label="Top by Players" value={1} />
           </Tabs>
         </Box>
+
+        <SearchBar
+          isClicked={isFilterClicked}
+          onClick={() => {
+            // setIsFilterClicked(!isFilterClicked);
+          }}
+        >
+          <Search />
+          <input
+            ref={searchRef}
+            type="text"
+            value={searched}
+            onChange={handleSearchChange}
+          />
+        </SearchBar>
 
         <FilterButton
           isClicked={isFilterClicked}
@@ -253,18 +351,22 @@ export default function Charts() {
         )}
       </Header>
       <Body>
-        {topGamesByTimePlayed && tab === 0 && (
+        {tab === 0 && (
           <Table
             type={'byTimePlayed'}
             header={['game', 'platforms', 'genre', 'Total play time']}
-            games={topGamesByTimePlayed}
+            isLoading={isLoading}
+            games={
+              !searched ? topGamesByTimePlayed : searchedTopGamesByTimePlayed
+            }
           />
         )}
-        {topGamesByPlayers && tab === 1 && (
+        {tab === 1 && (
           <Table
             type={'byPlayers'}
             header={['game', 'platforms', 'genre', 'Number of players']}
-            games={topGamesByPlayers}
+            isLoading={isLoading}
+            games={!searched ? topGamesByPlayers : searchedTopGamesByPlayers}
           />
         )}
       </Body>

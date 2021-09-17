@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { SemipolarLoading } from 'react-loadingg';
 
 const Container = styled.div`
   display: grid;
@@ -14,9 +15,28 @@ const Table = styled.table`
     minmax(150px, 1fr)
     minmax(150px, 1fr);
   grid-template-rows: max-content auto;
-  height: 165px;
+  height: ${({ games }) => (games.length < 7 ? 'auto' : '345px')};
 
+  /* scrollbar */
   overflow: auto;
+  padding-right: 5px;
+  scrollbar-width: thin;
+
+  scroll-padding: 100px;
+
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(196deg 100% 44%);
+    border-radius: 25px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
   tr {
     display: contents;
@@ -41,6 +61,7 @@ const Table = styled.table`
   }
 
   td {
+    height: 45px;
     padding: 0.8em 1.6em 0.8em 1.6em;
   }
 
@@ -49,6 +70,7 @@ const Table = styled.table`
   }
 
   tbody {
+    align-items: flex-start;
     tr {
       cursor: pointer;
       :hover {
@@ -69,49 +91,51 @@ const TableBody = styled.tbody`
   display: contents;
 `;
 
-const MessageContainer = styled.div`
+const LoaderContainer = styled.div`
+  grid-column: 1/6;
+  position: relative;
   display: grid;
-  place-content: center;
-  font-size: 1.2rem;
-  text-decoration: underline;
+  height: 30vh;
+
+  div {
+    margin: 0 auto;
+  }
 `;
 
-export default function TableComponent({ type, header, games }) {
+export default function TableComponent({ type, header, isLoading, games }) {
   return (
     <Container>
-      {true ? (
-        <Table>
-          <TableHead>
-            <tr>
-              <th>#</th>
-              {header.map((head) => (
-                <th>{head}</th>
-              ))}
-            </tr>
-          </TableHead>
-          <TableBody>
-            {games && games.length !== 0 ? (
-              games.map((game, index) => (
-                <tr>
-                  <td>{index + 1}</td>
-                  <td>{game.game}</td>
-                  <td>{game.platforms.join(', ')}</td>
-                  <td>{game.genre}</td>
-                  <td>
-                    {type === 'byTimePlayed'
-                      ? game.totalPlayTime
-                      : game.totalPlayers}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <></>
-            )}
-          </TableBody>
-        </Table>
-      ) : (
-        <MessageContainer>Aucune transaction</MessageContainer>
-      )}
+      <Table games={games}>
+        <TableHead>
+          <tr>
+            <th>#</th>
+            {header.map((head) => (
+              <th>{head}</th>
+            ))}
+          </tr>
+        </TableHead>
+        <TableBody>
+          {!isLoading ? (
+            games.map((game, index) => (
+              <tr key={index}>
+                <td>{game.position}</td>
+                <td>{game.game}</td>
+                <td>{game.platforms.join(', ')}</td>
+                <td>{game.genre}</td>
+                <td>
+                  {type === 'byTimePlayed'
+                    ? game.totalPlayTime
+                    : game.totalPlayers}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <LoaderContainer>
+              <SemipolarLoading />
+            </LoaderContainer>
+          )}
+        </TableBody>
+      </Table>
     </Container>
   );
 }

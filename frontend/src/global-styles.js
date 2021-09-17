@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
   *, *:before, *:after {
@@ -13,7 +13,7 @@ export const GlobalStyles = createGlobalStyle`
     color: #000000;
     font-size: 16px;
     margin: 0;
-}
+  }
   a {
     text-decoration: none;
     color: #000000;

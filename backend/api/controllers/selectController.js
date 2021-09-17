@@ -6,8 +6,7 @@ const topByPlaytime = (req, res) => {
 
   getGames(genre, platform)
     .then((games) => {
-      const sorted = _.sortBy(games, ['totalPlayTime']).reverse();
-      const topGames = sorted.slice(0, 3);
+      const topGames = _.sortBy(games, ['totalPlayTime']).reverse();
       res.json(topGames);
     })
     .catch((err) => console.error(err));
@@ -18,8 +17,7 @@ const topByPlayers = (req, res) => {
 
   getGames(genre, platform)
     .then((games) => {
-      const sorted = _.sortBy(games, ['totalPlayers']).reverse();
-      const topGames = sorted.slice(0, 3);
+      const topGames = _.sortBy(games, ['totalPlayers']).reverse();
       res.json(topGames);
     })
     .catch((err) => console.error(err));
