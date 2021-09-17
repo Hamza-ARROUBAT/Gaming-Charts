@@ -2,50 +2,44 @@
 
 # Introduction
 
-As you wished 😉👍🏼 <br/>
+Hope you like it ! 😉👍🏼 <br/>
 `Gaming Charts` is a React SPA that enables the user to search for the top games by playtime or by number of unique users.
 The application consists of two components:
 
 - A backend that serves the data to the frontend
 - A frontend that consumes the endpoints exposed by the backend and displays the data to the user.
 
-You will find in each folder (frontend/backend), a README file that gives details about how to lunch the servers to run the Web-App on your machines 💻🎉
+To run the App on your machines 💻, just run on each folder (frontend/backend) `yarn install` and then `yarn start`, if you want to use npm, u can do but just remove `yarn.lock` files.
 
 # Technologies
 
-In this part i will explain why i choosed each technology of this project.
+In this section i will explain why i chose each technology for this project.
 
 ## React
 
-React one the most used libraries of Javascript, we can actually concider it a Framework because of all the libraries that we can use with, so it's a big ecosystem that makes React one of the best Framework for building SPA.
-
-All my experience building Full Stack Web Apps, so i'm most confortable with it.
+React is one of the most used Javascript libraries, it is considered as a Framework thanks to big ecosystem that makes React one of the best Frameworks for building SPA.
 
 ## axios
 
-Axios is a Javascript library used to make requests and recieve responses, it supports the Promise API wich make it really easy to use in comparaison of native Http/XMLHttp requests.
+Axios is a Javascript library used to make requests and recieve responses, it supports the Promise API wich makes it really easy to use in comparaison of native Http/XMLHttp requests.
 
 ## styled-components
 
-styled-components allows to write CSS code to style for each component separtly or globaly. It uses SASS syntaxe so it really nice and easy to use.
-One the most reason of using this library is the fact that you can pass components props and use them into the styles, wich make it really efficient in time and efforts consuming.
+styled-components allows to write CSS code to style for each component separatly or collectively. It uses SASS syntaxe which makes it really nice and easy to use.
+One of the main reasons why is use this library is the fact that you can pass components props and use them in a styling code.
 
 ## styled-icons
 
-An icon library that delivers SVG icons from diffrent sources (material-icons, bootstrap, Font Awesome...) to use with react. And I prefer using it because of it's icons syntax made with styled components so we can easly style them.
+An icon library that delivers SVG icons from different sources (material-icons, bootstrap, Font Awesome...) to use with React. And I prefer using it because of it's icons syntax that are made with styled components.
 
 ## Material-UI
 
-Material-UI is a React component library that makes the development faster and easier with the pre-maded components that can just import and integrate in our Apps.
-
-## Material-UI
-
-Material-UI is a React component library that makes the development faster and easier with the pre-maded components that can just import and integrate in our Apps.
+Material-UI is a React component library that makes the development faster and easier with the pre-made components that we can just import and integrate in our Apps.
 
 ## Node.js
 
 Node.js is an open-source and cross-platform JavaScript runtime environment.
-I really like Node.js and all of it's ecosystem libraries because it mades it very easy to build complex apps that normally should take double amount of effort with other frameworks.
+I really like Node.js and all of it's ecosystem libraries because it makes it very easy to build complex apps that normally should take double amount of effort with other frameworks.
 
 ## Express.js
 
@@ -54,15 +48,10 @@ It's a javascript framework that provides a lot of HTTP utility methods and midd
 ## Lodash
 
 it's a JavaScript library which provides utility functions for almost all common programming tasks.
-It is also very performant, so i tend to use it when i can.
-
-## cors
-
-Cross is a Http mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading of resources.
-So i used it to make the communication between the front and back possible.
+It is also very efficient, so i tend to use it when i can.
 
 ## dotenv
 
-Environment variables are always needed to make the code more maintainable and more secure, and there are easy to set up with Dotenv wich automatically loads environment variables from a .env file into the process.env object.
+Environment variables are always needed to make the code more maintainable and more secure, and are easy to set up with Dotenv which automatically loads environment variables from a .env file into the process.env object.
 
 #### ---> A last word : This project was really exiting to make, i just wanted to say a biiig "Thank you ♥" to Think-it and it's recrutement team. Your breakthrough recruitment process will surely make you one of the best companies ✨.
