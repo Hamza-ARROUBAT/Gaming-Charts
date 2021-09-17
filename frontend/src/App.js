@@ -1,8 +1,8 @@
+import AppLayout from 'AppLayout';
 import Home from 'pages/Home';
 import React from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Route } from 'react-router';
-import AppLayout from 'AppLayout';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 export default function App() {
   return (
