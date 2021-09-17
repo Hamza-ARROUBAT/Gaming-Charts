@@ -9,8 +9,54 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Filter as FilterSvg } from '@styled-icons/bootstrap/Filter';
+import logo from 'assets/images/png/logo.png';
+import { SemipolarLoading } from 'react-loadingg';
 
 import { Search } from '@styled-icons/boxicons-regular/Search';
+
+const FirstScreen = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: white;
+  display: grid;
+  grid-template-rows: min-content min-content;
+  place-content: center;
+
+  transition: opacity 0.5s;
+  opacity: ${({ animate }) => animate && '0'};
+  display: ${({ disappear }) => disappear && 'none'};
+`;
+const LogoContainer = styled.div`
+  display: grid;
+  display: grid;
+  grid-template-columns: min-content max-content;
+  align-items: center;
+  gap: 0 15px;
+
+  img {
+    width: 75px;
+  }
+
+  p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 2rem;
+    color: hsl(196deg 100% 30%);
+  }
+`;
+
+const LoaderContainer = styled.div`
+  position: relative;
+  display: grid;
+  background: red;
+  top: 50px;
+
+  div {
+    margin: 0 auto;
+  }
+`;
 
 const Container = styled.div`
   display: grid;
@@ -178,8 +224,17 @@ export default function Home() {
       .catch((err) => console.error(err));
   };
 
+  const [animate, setAnimate] = useState(false);
+  const [disappear, setDisappear] = useState(false);
+
   useEffect(() => {
     getTopGamesByTimePlayed('', '');
+    setTimeout(() => {
+      setAnimate(true);
+      setTimeout(() => {
+        setDisappear(true);
+      }, 1000);
+    }, 3000);
   }, []);
 
   const [tab, setTab] = useState(0);
@@ -289,107 +344,115 @@ export default function Home() {
   ];
 
   return (
-    <Container>
-      <Title>Top Games 🏆</Title>
-      <Header>
-        <Box sx={{ width: '100%' }}>
-          <Tabs
-            value={tab}
-            onChange={handleTabChange}
-            aria-label="Select top games"
+    <>
+      <FirstScreen animate={animate} disappear={disappear}>
+        <LogoContainer>
+          <img src={logo} alt="Logo" />
+          <p>Gaming Charts</p>
+        </LogoContainer>
+        <LoaderContainer>
+          <SemipolarLoading />
+        </LoaderContainer>
+      </FirstScreen>
+      <Container>
+        <Title>Top Games 🏆</Title>
+        <Header>
+          <Box sx={{ width: '100%' }}>
+            <Tabs
+              value={tab}
+              onChange={handleTabChange}
+              aria-label="Select top games"
+            >
+              <Tab label="Play time" value={0} />
+              <Tab label="Players" value={1} />
+            </Tabs>
+          </Box>
+          <SearchBar>
+            <Search />
+            <input
+              type="text"
+              placeholder="Search by name"
+              value={searched}
+              onChange={handleSearchChange}
+            />
+          </SearchBar>
+          <FilterButton
+            isClicked={isFilterClicked}
+            onClick={() => {
+              setIsFilterClicked(!isFilterClicked);
+            }}
           >
-            <Tab label="Play time" value={0} />
-            <Tab label="Players" value={1} />
-          </Tabs>
-        </Box>
-
-        <SearchBar>
-          <Search />
-          <input
-            type="text"
-            placeholder="Search by name"
-            value={searched}
-            onChange={handleSearchChange}
-          />
-        </SearchBar>
-
-        <FilterButton
-          isClicked={isFilterClicked}
-          onClick={() => {
-            setIsFilterClicked(!isFilterClicked);
-          }}
-        >
-          <FilterSvg />
-          <p>Filter</p>
-        </FilterButton>
-
-        {isFilterClicked && (
-          <FiltersContainer>
-            {/* Filter By Platforms */}
-            <Filter>
-              <p>Platform</p>
-              <SelectContainer>
-                <FormControl sx={{ width: 165 }}>
-                  <Select
-                    value={platform}
-                    onChange={handlePlatformChange}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    <MenuItem value=""> - </MenuItem>
-                    {allPlatforms.map((platform) => (
-                      <MenuItem value={platform} sx={{ width: 160 }}>
-                        {platform}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </SelectContainer>
-            </Filter>
-            {/* Filter By Genre */}
-            <Filter>
-              <p>Genre</p>
-              <SelectContainer>
-                <FormControl sx={{ width: 165 }}>
-                  <Select
-                    value={genre}
-                    onChange={handleGenreChange}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    <MenuItem value=""> - </MenuItem>
-                    {allGenres.map((genre) => (
-                      <MenuItem value={genre} sx={{ width: 160 }}>
-                        {genre}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </SelectContainer>
-            </Filter>
-          </FiltersContainer>
-        )}
-      </Header>
-      <Body>
-        {tab === 0 && (
-          <Table
-            type={'byTimePlayed'}
-            header={['game', 'platforms', 'genre', 'Total play time']}
-            isLoading={isLoading}
-            games={
-              !searched ? topGamesByTimePlayed : searchedTopGamesByTimePlayed
-            }
-          />
-        )}
-        {tab === 1 && (
-          <Table
-            type={'byPlayers'}
-            header={['game', 'platforms', 'genre', 'Number of players']}
-            isLoading={isLoading}
-            games={!searched ? topGamesByPlayers : searchedTopGamesByPlayers}
-          />
-        )}
-      </Body>
-    </Container>
+            <FilterSvg />
+            <p>Filter</p>
+          </FilterButton>
+          {isFilterClicked && (
+            <FiltersContainer>
+              {/* Filter By Platforms */}
+              <Filter>
+                <p>Platform</p>
+                <SelectContainer>
+                  <FormControl sx={{ width: 165 }}>
+                    <Select
+                      value={platform}
+                      onChange={handlePlatformChange}
+                      displayEmpty
+                      inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                      <MenuItem value=""> - </MenuItem>
+                      {allPlatforms.map((platform) => (
+                        <MenuItem value={platform} sx={{ width: 160 }}>
+                          {platform}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </SelectContainer>
+              </Filter>
+              {/* Filter By Genre */}
+              <Filter>
+                <p>Genre</p>
+                <SelectContainer>
+                  <FormControl sx={{ width: 165 }}>
+                    <Select
+                      value={genre}
+                      onChange={handleGenreChange}
+                      displayEmpty
+                      inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                      <MenuItem value=""> - </MenuItem>
+                      {allGenres.map((genre) => (
+                        <MenuItem value={genre} sx={{ width: 160 }}>
+                          {genre}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </SelectContainer>
+              </Filter>
+            </FiltersContainer>
+          )}
+        </Header>
+        <Body>
+          {tab === 0 && (
+            <Table
+              type={'byTimePlayed'}
+              header={['game', 'platforms', 'genre', 'Total play time']}
+              isLoading={isLoading}
+              games={
+                !searched ? topGamesByTimePlayed : searchedTopGamesByTimePlayed
+              }
+            />
+          )}
+          {tab === 1 && (
+            <Table
+              type={'byPlayers'}
+              header={['game', 'platforms', 'genre', 'Number of players']}
+              isLoading={isLoading}
+              games={!searched ? topGamesByPlayers : searchedTopGamesByPlayers}
+            />
+          )}
+        </Body>
+      </Container>
+    </>
   );
 }
