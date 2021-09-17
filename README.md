@@ -9,7 +9,7 @@ The application consists of two components:
 - A backend that serves the data to the frontend
 - A frontend that consumes the endpoints exposed by the backend and displays the data to the user.
 
-You will find in each part, a README file that gives details about how to lunch the servers make the Web-App working on your machine 🎉
+You will find in each part (frontend/backend), a README file that gives details about how to lunch the servers make the Web-App working on your machines 💻🎉
 
 # Technologies
 
@@ -65,4 +65,4 @@ So i used it to make the communication between the front and back possible.
 
 Environment variables are always needed to make the code more maintainable and more secure, and there are easy to set up with Dotenv wich automatically loads environment variables from a .env file into the process.env object.
 
-#### This project was really exiting to make, i just wanted to say a biiig "Thank you ♥" to Think-it and it's recrutement team. Your breakthrough recruitment process will surely makes you one of the best companies ✨.
+#### This project was really exiting to make, i just wanted to say a biiig "Thank you ♥" to Think-it and it's recrutement team. Your breakthrough recruitment process will surely make you one of the best companies ✨.
