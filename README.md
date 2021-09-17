@@ -65,4 +65,4 @@ So i used it to make the communication between the front and back possible.
 
 Environment variables are always needed to make the code more maintainable and more secure, and there are easy to set up with Dotenv wich automatically loads environment variables from a .env file into the process.env object.
 
-#### This project was really exiting to make, i just wanted to say a biiig "Thank you ♥" to Think-it and it's recrutement team. Your breakthrough recruitment process will surely make you one of the best companies ✨.
+#### ---> A last word : This project was really exiting to make, i just wanted to say a biiig "Thank you ♥" to Think-it and it's recrutement team. Your breakthrough recruitment process will surely make you one of the best companies ✨.
