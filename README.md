@@ -9,7 +9,7 @@ The application consists of two components:
 - A backend that serves the data to the frontend
 - A frontend that consumes the endpoints exposed by the backend and displays the data to the user.
 
-You will find in each part (frontend/backend), a README file that gives details about how to lunch the servers make the Web-App working on your machines 💻🎉
+You will find in each folder (frontend/backend), a README file that gives details about how to lunch the servers to run the Web-App on your machines 💻🎉
 
 # Technologies
 
