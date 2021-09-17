@@ -9,7 +9,7 @@ The application consists of two components:
 - A backend that serves the data to the frontend
 - A frontend that consumes the endpoints exposed by the backend and displays the data to the user.
 
-To run the App on your machines 💻, just run on each folder (frontend/backend) `yarn install` and then `yarn start`, if you want to use npm, u can do so just don't forget to remove `yarn.lock` files.
+To run the App on your machines 💻, just run on each folder (frontend/backend) `yarn install` and then `yarn start`, if you want to use npm, u can do so, just don't forget to remove `yarn.lock` files.
 
 # Technologies
 
