@@ -76,6 +76,10 @@ const Header = styled.div`
   grid-template-columns: auto min-content min-content;
   align-items: center;
   gap: 25px 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: auto min-content;
+  }
 `;
 
 const FiltersContainer = styled.div`
@@ -173,6 +177,10 @@ const SearchBar = styled.div`
     svg {
       color: hsl(196deg 100% 44%);
     }
+  }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
