@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import Table from 'components/Table';
-import styled from 'styled-components';
-import axios from 'axios';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import { Filter as FilterSvg } from '@styled-icons/bootstrap/Filter';
-import logo from 'assets/images/png/logo.png';
-import { SemipolarLoading } from 'react-loadingg';
-
 import { Search } from '@styled-icons/boxicons-regular/Search';
+import logo from 'assets/images/png/logo.png';
+import axios from 'axios';
+import Table from 'components/Table';
+import React, { useEffect, useState } from 'react';
+import { SemipolarLoading } from 'react-loadingg';
+import styled from 'styled-components';
 
-const FirstScreen = styled.div`
+const LoadingScreen = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -177,8 +176,6 @@ const SearchBar = styled.div`
   }
 `;
 
-const Body = styled.div``;
-
 export default function Home() {
   const [topGamesByTimePlayed, setTopGamesByTimePlayed] = useState([]);
   const [topGamesByPlayers, setTopGamesByPlayers] = useState([]);
@@ -190,6 +187,7 @@ export default function Home() {
   const [prevPlatform, setPrevPlatform] = useState('');
   const [prevGenre, setPrevGenre] = useState('');
 
+  // Fetching Data functions
   const getTopGamesByTimePlayed = (genre, platform) => {
     axios({
       method: 'get',
@@ -224,6 +222,7 @@ export default function Home() {
       .catch((err) => console.error(err));
   };
 
+  // Loading Screen
   const [animate, setAnimate] = useState(false);
   const [disappear, setDisappear] = useState(false);
 
@@ -237,6 +236,7 @@ export default function Home() {
     }, 3000);
   }, []);
 
+  // Tabs management
   const [tab, setTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -268,9 +268,11 @@ export default function Home() {
     }
   };
 
+  // Filters management
   const [isFilterClicked, setIsFilterClicked] = useState(false);
 
   const handlePlatformChange = (event) => {
+    setSearched('');
     setPrevPlatform(platform);
     setPlatform(event.target.value);
     if (tab === 0) {
@@ -282,6 +284,7 @@ export default function Home() {
     }
   };
   const handleGenreChange = (event) => {
+    setSearched('');
     setPrevGenre(genre);
     setGenre(event.target.value);
     if (tab === 0) {
@@ -290,33 +293,6 @@ export default function Home() {
     } else {
       setIsLoading(true);
       getTopGamesByPlayers(event.target.value, platform);
-    }
-  };
-
-  const [searched, setSearched] = useState('');
-
-  const [searchedTopGamesByTimePlayed, setSearchedTopGamesByTimePlayed] =
-    useState([]);
-  const [searchedTopGamesByPlayers, setSearchedTopGamesByPlayers] = useState(
-    []
-  );
-
-  const handleSearchChange = (e) => {
-    setSearched(e.target.value);
-    setIsLoading(true);
-
-    if (tab === 0) {
-      const filtred = topGamesByTimePlayed.filter((element) =>
-        element.game.toLowerCase().includes(e.target.value.toLowerCase())
-      );
-      setSearchedTopGamesByTimePlayed(filtred);
-      setIsLoading(false);
-    } else {
-      const filtred = topGamesByPlayers.filter((element) =>
-        element.game.toLowerCase().includes(e.target.value.toLowerCase())
-      );
-      setSearchedTopGamesByPlayers(filtred);
-      setIsLoading(false);
     }
   };
 
@@ -343,9 +319,36 @@ export default function Home() {
     'Sport',
   ];
 
+  // Search management
+  const [searched, setSearched] = useState('');
+  // prettier-ignore
+  const [searchedTopGamesByTimePlayed, setSearchedTopGamesByTimePlayed] = useState([]);
+  // prettier-ignore
+  const [searchedTopGamesByPlayers, setSearchedTopGamesByPlayers] = useState([]);
+
+  const handleSearchChange = (e) => {
+    setSearched(e.target.value);
+    setIsLoading(true);
+
+    if (tab === 0) {
+      const filtred = topGamesByTimePlayed.filter((element) =>
+        element.game.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setSearchedTopGamesByTimePlayed(filtred);
+      setIsLoading(false);
+    } else {
+      const filtred = topGamesByPlayers.filter((element) =>
+        element.game.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setSearchedTopGamesByPlayers(filtred);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
-      <FirstScreen animate={animate} disappear={disappear}>
+      {/* Loading Screen */}
+      <LoadingScreen animate={animate} disappear={disappear}>
         <LogoContainer>
           <img src={logo} alt="Logo" />
           <p>Gaming Charts</p>
@@ -353,7 +356,8 @@ export default function Home() {
         <LoaderContainer>
           <SemipolarLoading />
         </LoaderContainer>
-      </FirstScreen>
+      </LoadingScreen>
+
       <Container>
         <Title>Top Games 🏆</Title>
         <Header>
@@ -387,7 +391,7 @@ export default function Home() {
           </FilterButton>
           {isFilterClicked && (
             <FiltersContainer>
-              {/* Filter By Platforms */}
+              {/* Platform Filters */}
               <Filter>
                 <p>Platform</p>
                 <SelectContainer>
@@ -408,7 +412,7 @@ export default function Home() {
                   </FormControl>
                 </SelectContainer>
               </Filter>
-              {/* Filter By Genre */}
+              {/* Genre Filters */}
               <Filter>
                 <p>Genre</p>
                 <SelectContainer>
@@ -432,26 +436,24 @@ export default function Home() {
             </FiltersContainer>
           )}
         </Header>
-        <Body>
-          {tab === 0 && (
-            <Table
-              type={'byTimePlayed'}
-              header={['game', 'platforms', 'genre', 'Total play time']}
-              isLoading={isLoading}
-              games={
-                !searched ? topGamesByTimePlayed : searchedTopGamesByTimePlayed
-              }
-            />
-          )}
-          {tab === 1 && (
-            <Table
-              type={'byPlayers'}
-              header={['game', 'platforms', 'genre', 'Number of players']}
-              isLoading={isLoading}
-              games={!searched ? topGamesByPlayers : searchedTopGamesByPlayers}
-            />
-          )}
-        </Body>
+        {tab === 0 && (
+          <Table
+            type={'byTimePlayed'}
+            header={['game', 'platforms', 'genre', 'Total play time']}
+            isLoading={isLoading}
+            games={
+              !searched ? topGamesByTimePlayed : searchedTopGamesByTimePlayed
+            }
+          />
+        )}
+        {tab === 1 && (
+          <Table
+            type={'byPlayers'}
+            header={['game', 'platforms', 'genre', 'Number of players']}
+            isLoading={isLoading}
+            games={!searched ? topGamesByPlayers : searchedTopGamesByPlayers}
+          />
+        )}
       </Container>
     </>
   );
