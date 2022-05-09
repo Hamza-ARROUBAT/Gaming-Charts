@@ -1,4 +1,4 @@
-<h1 align="center">Think-it Web Challenge - Junior <br/> (Gaming Charts)</h1>
+<h1 align="center">(Gaming Charts)</h1>
 
 # Introduction
 
