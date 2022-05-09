@@ -53,5 +53,3 @@ It is also very efficient, so i tend to use it when i can.
 ## dotenv
 
 Environment variables are always needed to make the code more maintainable and more secure, and are easy to set up with Dotenv which automatically loads environment variables from a .env file into the process.env object.
-
-#### ---> A last word : This project was really exiting to make, i just wanted to say a biiig Thank you 🤗 to Think-it and it's recruitment team. Your breakthrough recruitment process will surely make you one of the best companies ✨.
